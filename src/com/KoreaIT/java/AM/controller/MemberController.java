@@ -58,6 +58,14 @@ public class MemberController extends Controller {
 		System.out.printf("로그인 성공!, %s님 환영합니다.\n", loginedMember.name);
 	}
 
+	public void makeTestData() {
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
+
+		members.add(new Member(1, Util.getNowDateStr(), "admin", "admin", "관리자"));
+		members.add(new Member(2, Util.getNowDateStr(), "test1", "test1", "유저1"));
+		members.add(new Member(3, Util.getNowDateStr(), "test2", "test2", "유저2"));
+	}
+
 	private Member getMemberByLoginId(String loginId) {
 		int index = getMemberIndexByLoginId(loginId);
 
