@@ -38,21 +38,44 @@ public class App {
 				break;
 			}
 
-			if (command.equals("member join")) {
-				memberController.doJoin();
-			} else if (command.equals("article write")) {
-				articleController.doWrite();
-			} else if (command.startsWith("article list")) {
-				articleController.showList(command);
-			} else if (command.startsWith("article detail ")) {
-				articleController.showDetail(command);
-			} else if (command.startsWith("article modify ")) {
-				articleController.doModify(command);
-			} else if (command.startsWith("article delete ")) {
-				articleController.doDelete(command);
-			} else {
-				System.out.println("존재하지 않는 명령어 입니다");
+			String[] commandBits = command.split(" "); // article list
+
+			if (commandBits.length == 1) {
+				System.out.println("존재하지 않는 명령어입니다.");
+				continue;
 			}
+
+			String controllerName = commandBits[0]; // article
+			String actionMethodName = commandBits[1]; // list
+
+			Controller controller = null;
+
+			if (controllerName.equals("article")) {
+				controller = articleController;
+			} else if (controllerName.equals("member")) {
+				controller = memberController;
+			} else {
+				System.out.println("존재하지 않는 명령어입니다.");
+				continue;
+			}
+
+			controller.doAction(command, actionMethodName);
+
+//			if (command.equals("member join")) {
+//				memberController.doJoin();
+//			} else if (command.equals("article write")) {
+//				articleController.doWrite();
+//			} else if (command.startsWith("article list")) {
+//				articleController.showList(command);
+//			} else if (command.startsWith("article detail ")) {
+//				articleController.showDetail(command);
+//			} else if (command.startsWith("article modify ")) {
+//				articleController.doModify(command);
+//			} else if (command.startsWith("article delete ")) {
+//				articleController.doDelete(command);
+//			} else {
+//				System.out.println("존재하지 않는 명령어 입니다");
+//			}
 		}
 
 		sc.close();
@@ -66,6 +89,5 @@ public class App {
 		articles.add(new Article(1, Util.getNowDateStr(), "제목1", "내용1", 11));
 		articles.add(new Article(2, Util.getNowDateStr(), "제목2", "내용2", 22));
 		articles.add(new Article(3, Util.getNowDateStr(), "제목3", "내용3", 33));
-
 	}
 }
