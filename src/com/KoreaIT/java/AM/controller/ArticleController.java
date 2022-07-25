@@ -2,6 +2,7 @@ package com.KoreaIT.java.AM.controller;
 
 import java.util.*;
 
+import com.KoreaIT.java.AM.container.*;
 import com.KoreaIT.java.AM.dto.*;
 import com.KoreaIT.java.AM.util.*;
 
@@ -14,7 +15,7 @@ public class ArticleController extends Controller {
 	public ArticleController(Scanner sc) {
 		this.sc = sc;
 
-		articles = new ArrayList<Article>();
+		articles = Container.articleDao.articles;
 	}
 
 	public void doAction(String command, String actionMethodName) {
@@ -90,11 +91,22 @@ public class ArticleController extends Controller {
 			}
 		}
 
-		System.out.println("번호  |  작성자  |  제목  |  조회");
+		System.out.println("번호  |  작성자   |  제목  |  조회");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
 
-			System.out.printf("%5d | %8d | %6s | %4d\n", article.id, article.memberId, article.title, article.hit);
+			String writerName = null;
+
+			List<Member> members = Container.memberDao.members;
+
+			for (Member member : members) {
+				if (article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
+
+			System.out.printf("%5d | %7s | %6s | %4d\n", article.id, writerName, article.title, article.hit);
 		}
 
 	}
